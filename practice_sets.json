@@ -1,0 +1,849 @@
+[
+  {
+    "practice_set": 1,
+    "title": "PRACTICE SET 1",
+    "course": "STA334 – INTRODUCTION TO STATISTICAL PROGRAMMING",
+    "focus": "Focus: Import/export, bar chart & boxplot, dplyr basics",
+    "info": "Total: 25 marks  |  Suggested time: 1 hour  |  Answer ALL questions. Write all R code by hand.",
+    "questions": [
+      {
+        "question_no": 1,
+        "total_marks": 5,
+        "context": "",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "A committee member of the Gerbang Malam night market has recorded a stall survey in a file named market_survey.csv. Write the base R command to import this file into R and store it in a variable named market_data.",
+            "marks": 2,
+            "reference_answer": "market_data <- read.csv(\"market_survey.csv\")",
+            "marks_breakdown": "2",
+            "assets": []
+          },
+          {
+            "sub_no": "b",
+            "text": "Write the R code to import the second sheet of an Excel file named stall_list.xlsx using the readxl package.",
+            "marks": 1,
+            "reference_answer": "library(readxl)\nread_excel(\"stall_list.xlsx\", sheet = 2)",
+            "marks_breakdown": "0.5\n0.5",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "Write the base R command to export a data frame named clean_data to a CSV file named market_clean.csv without row numbers.",
+            "marks": 2,
+            "reference_answer": "write.csv(clean_data, \"market_clean.csv\",\n          row.names = FALSE)",
+            "marks_breakdown": "1\n1",
+            "assets": []
+          }
+        ],
+        "assets": []
+      },
+      {
+        "question_no": 2,
+        "total_marks": 10,
+        "context": "Assume a dataset pasar_data has been imported into RStudio. It contains the numeric variable Daily_Sales (RM) and the factor variables Stall_Category (“Food” / “Clothes” / “Toys”) and Day_Type (“Weekday” / “Weekend”). Use the ggplot2 package for all plots.",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "Write the R code to create a bar chart showing the number of stalls in each Stall_Category, with a main title, axis labels, and orange bars.",
+            "marks": 4,
+            "reference_answer": "library(ggplot2)\nggplot(pasar_data, aes(x = Stall_Category)) +\n  geom_bar(fill = \"orange\") +\n  labs(title = \"Number of Stalls by Category\",\n       x = \"Stall Category\", y = \"Number of Stalls\")",
+            "marks_breakdown": "1\n1\n1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "b",
+            "text": "Write the R code to create a boxplot of Daily_Sales across the two categories of Day_Type.",
+            "marks": 3,
+            "reference_answer": "ggplot(pasar_data,\n  aes(x = Day_Type, y = Daily_Sales)) +\n  geom_boxplot()",
+            "marks_breakdown": "1\n1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "The boxplot below was produced from the pasar_data dataset.\nState the approximate median daily sales for each day type, and state which day type shows the larger spread in daily sales.",
+            "marks": 3,
+            "reference_answer": "Median for Weekday ≈ RM500 (accept ±RM30)\nMedian for Weekend ≈ RM900 (accept ±RM30)\nLarger spread: Weekend (wider box / longer whiskers)",
+            "marks_breakdown": "1\n1\n1",
+            "assets": [
+              {
+                "type": "image",
+                "path": "images/practice_1_img_1.png",
+                "name": "practice_1_img_1.png"
+              }
+            ]
+          }
+        ],
+        "assets": []
+      },
+      {
+        "question_no": 3,
+        "total_marks": 10,
+        "context": "The dataset stall_data records the performance of five stalls:\nUse the dplyr package and the pipe operator (%>%) for all parts.",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "Select the Stall and Daily_Sales variables and filter the stalls with Daily_Sales more than 700. Store the result as top_stalls. Your output should be:",
+            "marks": 3,
+            "reference_answer": "library(dplyr)\ntop_stalls <- stall_data %>%\n  select(Stall, Daily_Sales) %>%\n  filter(Daily_Sales > 700)",
+            "marks_breakdown": "1\n1\n\n1",
+            "assets": [
+              {
+                "type": "table",
+                "headers": [
+                  "Stall",
+                  "Daily_Sales"
+                ],
+                "rows": [
+                  [
+                    "S1",
+                    "850"
+                  ],
+                  [
+                    "S3",
+                    "930"
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "sub_no": "b",
+            "text": "Arrange all stalls by Daily_Sales in descending order. Store the result as sales_rank.",
+            "marks": 2,
+            "reference_answer": "sales_rank <- stall_data %>%\n  arrange(desc(Daily_Sales))",
+            "marks_breakdown": "1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "Use mutate() to create a new variable Profit, defined as Profit = Daily_Sales − Cost.",
+            "marks": 2,
+            "reference_answer": "stall_data <- stall_data %>%\n  mutate(Profit = Daily_Sales - Cost)",
+            "marks_breakdown": "1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "d",
+            "text": "Continuing from c), use group_by() and summarise() to compute the average Profit for each Category, naming the column Avg_Profit. Store the result as category_summary.\nEND OF PRACTICE SET",
+            "marks": 3,
+            "reference_answer": "category_summary <- stall_data %>%\n  group_by(Category) %>%\n  summarise(Avg_Profit = mean(Profit))",
+            "marks_breakdown": "1\n1\n1",
+            "assets": []
+          }
+        ],
+        "assets": [
+          {
+            "type": "table",
+            "headers": [
+              "Stall",
+              "Category",
+              "Daily_Sales",
+              "Cost"
+            ],
+            "rows": [
+              [
+                "S1",
+                "Food",
+                "850",
+                "400"
+              ],
+              [
+                "S2",
+                "Clothes",
+                "620",
+                "300"
+              ],
+              [
+                "S3",
+                "Food",
+                "930",
+                "450"
+              ],
+              [
+                "S4",
+                "Toys",
+                "410",
+                "200"
+              ],
+              [
+                "S5",
+                "Clothes",
+                "700",
+                "320"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "practice_set": 2,
+    "title": "PRACTICE SET 2",
+    "course": "STA334 – INTRODUCTION TO STATISTICAL PROGRAMMING",
+    "focus": "Focus: SPSS/URL import, line & stacked bar, missing values + dplyr",
+    "info": "Total: 25 marks  |  Suggested time: 1 hour  |  Answer ALL questions. Write all R code by hand.",
+    "questions": [
+      {
+        "question_no": 1,
+        "total_marks": 5,
+        "context": "",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "Perak Transit has recorded commuter survey data in an SPSS file named commuter.sav. Write the R code to import this file using the haven package and store it in a variable named commuter_data.",
+            "marks": 2,
+            "reference_answer": "library(haven)\ncommuter_data <- read_sav(\"commuter.sav\")",
+            "marks_breakdown": "1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "b",
+            "text": "Write the R code to import a CSV file from the URL “https://data.gov.my/transport.csv” using the readr package.",
+            "marks": 1,
+            "reference_answer": "library(readr)\nread_csv(\"https://data.gov.my/transport.csv\")",
+            "marks_breakdown": "0.5\n0.5",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "Besides CSV and SPSS, state TWO (2) other file formats that can be imported into R.",
+            "marks": 2,
+            "reference_answer": "Any two: Excel (.xlsx/.xls), Stata (.dta), text/tab-delimited (.txt), JSON (.json), SAS (.sas7bdat)",
+            "marks_breakdown": "1+1",
+            "assets": []
+          }
+        ],
+        "assets": []
+      },
+      {
+        "question_no": 2,
+        "total_marks": 10,
+        "context": "Assume a dataset monthly_riders has been imported into RStudio, containing the variables Month (numbers 1 to 12) and Passengers. A second dataset, trip_data, contains the factor variables Route (“A” / “B” / “C”) and Ticket_Type (“Adult” / “Student”). Use the ggplot2 package for all plots.",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "Using monthly_riders, write the R code to create a line chart of Passengers across Month, with a main title, axis labels, and a green line.",
+            "marks": 4,
+            "reference_answer": "library(ggplot2)\nggplot(monthly_riders, aes(x = Month, y = Passengers)) +\n  geom_line(color = \"green\") +\n  labs(title = \"Monthly Passengers\",\n       x = \"Month\", y = \"Number of Passengers\")",
+            "marks_breakdown": "1\n1\n1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "b",
+            "text": "Using trip_data, write the R code to create a stacked bar chart of Route, where each bar is divided (filled) according to Ticket_Type.",
+            "marks": 3,
+            "reference_answer": "ggplot(trip_data,\n  aes(x = Route, fill = Ticket_Type)) +\n  geom_bar(position = \"stack\")\n(geom_bar() alone is accepted – “stack” is the default)",
+            "marks_breakdown": "1\n1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "Explain the difference in output between using position = “stack” and position = “dodge” in geom_bar(), and state which one is more suitable if the manager wants to compare Adult vs Student tickets directly side by side.",
+            "marks": 3,
+            "reference_answer": "\"stack\" – the segments are placed on top of one another in a single bar for each route (shows the total).\n\"dodge\" – the bars are placed side by side within each route.\nFor a direct side-by-side comparison of Adult vs Student, position = \"dodge\" is more suitable.",
+            "marks_breakdown": "1\n1\n1",
+            "assets": []
+          }
+        ],
+        "assets": []
+      },
+      {
+        "question_no": 3,
+        "total_marks": 10,
+        "context": "The dataset bus_data records weekly information for five routes:",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "State the output that R will return if mean(bus_data$Passengers) is executed without handling the NA values, and explain why.",
+            "marks": 1,
+            "reference_answer": "It returns NA, because any arithmetic calculation involving NA produces NA.",
+            "marks_breakdown": "1",
+            "assets": []
+          },
+          {
+            "sub_no": "b",
+            "text": "Write an R script to compute the average number of passengers, ensuring that the NA values are excluded.",
+            "marks": 3,
+            "reference_answer": "mean(bus_data$Passengers, na.rm = TRUE)",
+            "marks_breakdown": "3",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "Using dplyr and the pipe operator, rename the variable Complaints to Feedback_Count. Store the result as bus_renamed.",
+            "marks": 2,
+            "reference_answer": "library(dplyr)\nbus_renamed <- bus_data %>%\n  rename(Feedback_Count = Complaints)",
+            "marks_breakdown": "1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "d",
+            "text": "Using dplyr and the pipe operator, select the Route and Passengers variables and filter the routes with more than 400 passengers. Store the result as busy_routes.",
+            "marks": 2,
+            "reference_answer": "busy_routes <- bus_data %>%\n  select(Route, Passengers) %>%\n  filter(Passengers > 400)\n(Rows with NA in Passengers are automatically dropped by filter)",
+            "marks_breakdown": "1\n\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "e",
+            "text": "Using dplyr and the pipe operator, arrange all routes by Passengers in descending order. Store the result as route_rank.\nEND OF PRACTICE SET",
+            "marks": 2,
+            "reference_answer": "route_rank <- bus_data %>%\n  arrange(desc(Passengers))",
+            "marks_breakdown": "1\n1",
+            "assets": []
+          }
+        ],
+        "assets": [
+          {
+            "type": "table",
+            "headers": [
+              "Route",
+              "Region",
+              "Passengers",
+              "Complaints"
+            ],
+            "rows": [
+              [
+                "R1",
+                "North",
+                "480",
+                "3"
+              ],
+              [
+                "R2",
+                "North",
+                "NA",
+                "5"
+              ],
+              [
+                "R3",
+                "South",
+                "350",
+                "NA"
+              ],
+              [
+                "R4",
+                "East",
+                "NA",
+                "2"
+              ],
+              [
+                "R5",
+                "South",
+                "510",
+                "4"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "practice_set": 3,
+    "title": "PRACTICE SET 3",
+    "course": "STA334 – INTRODUCTION TO STATISTICAL PROGRAMMING",
+    "focus": "Focus: Delimited text import, histogram & clustered bar, NA handling",
+    "info": "Total: 25 marks  |  Suggested time: 1 hour  |  Answer ALL questions. Write all R code by hand.",
+    "questions": [
+      {
+        "question_no": 1,
+        "total_marks": 5,
+        "context": "",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "Bakeri Hangat keeps its oven production log in a text file named oven_log.txt, in which the values are separated by semicolons (;) and the first row contains the variable names. Write the base R command to import this file into a variable named oven_data.",
+            "marks": 2,
+            "reference_answer": "oven_data <- read.table(\"oven_log.txt\",\n             header = TRUE, sep = \";\")",
+            "marks_breakdown": "1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "b",
+            "text": "State the purpose of the argument header = TRUE in the command written in a).",
+            "marks": 1,
+            "reference_answer": "It tells R that the first row of the file contains the variable (column) names, so it is not treated as data.",
+            "marks_breakdown": "1",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "Write the base R command to export a data frame named daily_report to a CSV file named report_today.csv without row numbers.",
+            "marks": 2,
+            "reference_answer": "write.csv(daily_report, \"report_today.csv\",\n          row.names = FALSE)",
+            "marks_breakdown": "1\n1",
+            "assets": []
+          }
+        ],
+        "assets": []
+      },
+      {
+        "question_no": 2,
+        "total_marks": 10,
+        "context": "Assume a dataset sales_daily has been imported into RStudio. It contains the numeric variable Items_Sold and the factor variables Branch (“Ipoh” / “Taiping”) and Shift (“Morning” / “Evening”). Use the ggplot2 package for all plots.",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "Write the R code to create a histogram of Items_Sold using a bin width of 5, with a main title, axis labels, and brown bars.",
+            "marks": 4,
+            "reference_answer": "library(ggplot2)\nggplot(sales_daily, aes(x = Items_Sold)) +\n  geom_histogram(binwidth = 5, fill = \"brown\") +\n  labs(title = \"Distribution of Items Sold per Day\",\n       x = \"Items Sold\", y = \"Frequency\")",
+            "marks_breakdown": "1\n1\n1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "b",
+            "text": "Write the R code to create a clustered (grouped) bar chart of Branch, where the bars for the two shifts appear side by side within each branch.",
+            "marks": 3,
+            "reference_answer": "ggplot(sales_daily,\n  aes(x = Branch, fill = Shift)) +\n  geom_bar(position = \"dodge\")",
+            "marks_breakdown": "1\n1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "The histogram below was produced from the sales_daily dataset.\nDescribe the shape of the distribution, state the class interval with the highest frequency, and state whether the mean is greater than, less than, or equal to the median.",
+            "marks": 3,
+            "reference_answer": "Shape: skewed to the left (negatively skewed).\nHighest frequency: the 40–45 class.\nThe mean is less than the median (the mean is pulled towards the long left tail).",
+            "marks_breakdown": "1\n1\n1",
+            "assets": [
+              {
+                "type": "image",
+                "path": "images/practice_3_img_1.png",
+                "name": "practice_3_img_1.png"
+              }
+            ]
+          }
+        ],
+        "assets": []
+      },
+      {
+        "question_no": 3,
+        "total_marks": 10,
+        "context": "The dataset bakery_data records yesterday's performance of five products:",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "Write an R command using is.na() to count the number of missing values in the Waste column, and state the value it returns for this dataset.",
+            "marks": 2,
+            "reference_answer": "sum(is.na(bakery_data$Waste))\nIt returns 2.",
+            "marks_breakdown": "1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "b",
+            "text": "Explain what happens to the dataset if na.omit(bakery_data) is applied. In your answer, state which items remain and give one reason why this may be a problem.",
+            "marks": 3,
+            "reference_answer": "na.omit() removes every row that contains at least one NA.\nOnly Baguette, Donut and Muffin remain (Croissant and Roti are removed).\nProblem: complete information about Sold, Price and Revenue for Croissant and Roti is also lost, even though only their Waste values were missing.",
+            "marks_breakdown": "1\n1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "Using dplyr and the pipe operator, use mutate() to create a new variable Revenue, defined as Revenue = Sold × Price_RM.",
+            "marks": 2,
+            "reference_answer": "library(dplyr)\nbakery_data <- bakery_data %>%\n  mutate(Revenue = Sold * Price_RM)",
+            "marks_breakdown": "1\n\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "d",
+            "text": "Continuing from c), use group_by() and summarise() to compute the total Sold for each Type, naming the column Total_Sold. Store the result as type_summary.\nEND OF PRACTICE SET",
+            "marks": 3,
+            "reference_answer": "type_summary <- bakery_data %>%\n  group_by(Type) %>%\n  summarise(Total_Sold = sum(Sold))",
+            "marks_breakdown": "1\n1\n1",
+            "assets": []
+          }
+        ],
+        "assets": [
+          {
+            "type": "table",
+            "headers": [
+              "Item",
+              "Type",
+              "Sold",
+              "Price_RM",
+              "Waste"
+            ],
+            "rows": [
+              [
+                "Croissant",
+                "Pastry",
+                "40",
+                "3.50",
+                "NA"
+              ],
+              [
+                "Baguette",
+                "Bread",
+                "25",
+                "4.00",
+                "2"
+              ],
+              [
+                "Donut",
+                "Pastry",
+                "30",
+                "2.50",
+                "5"
+              ],
+              [
+                "Roti",
+                "Bread",
+                "60",
+                "1.50",
+                "NA"
+              ],
+              [
+                "Muffin",
+                "Pastry",
+                "35",
+                "3.00",
+                "1"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "practice_set": 4,
+    "title": "PRACTICE SET 4",
+    "course": "STA334 – INTRODUCTION TO STATISTICAL PROGRAMMING",
+    "focus": "Focus: readr vs base R, proportions & line chart, full dplyr chains",
+    "info": "Total: 25 marks  |  Suggested time: 1 hour  |  Answer ALL questions. Write all R code by hand.",
+    "questions": [
+      {
+        "question_no": 1,
+        "total_marks": 5,
+        "context": "",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "State ONE (1) difference between the base R function read.csv() and the readr function read_csv().",
+            "marks": 2,
+            "reference_answer": "Any one (2 marks):\n1. read.csv() is base R (no package), read_csv() requires the readr package.\n2. read_csv() is faster for large files.\n3. read_csv() returns a tibble; read.csv() returns a data frame.\n4. read_csv() does not automatically convert strings to factors.",
+            "marks_breakdown": "2",
+            "assets": []
+          },
+          {
+            "sub_no": "b",
+            "text": "Write the R code to import a Stata file named supplier.dta using the haven package.",
+            "marks": 1,
+            "reference_answer": "library(haven)\nread_dta(\"supplier.dta\")",
+            "marks_breakdown": "0.5\n0.5",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "Write the R code to import an Excel file named inventory.xlsx from a sheet named “Stock2026” using the readxl package, including the line of code needed to load the package.",
+            "marks": 2,
+            "reference_answer": "library(readxl)\nread_excel(\"inventory.xlsx\", sheet = \"Stock2026\")",
+            "marks_breakdown": "1\n1",
+            "assets": []
+          }
+        ],
+        "assets": []
+      },
+      {
+        "question_no": 2,
+        "total_marks": 10,
+        "context": "Assume a dataset gadget_data has been imported into RStudio. It contains the numeric variable Price_RM and the factor variables Brand (“Techno” / “Vora” / “Lumo”) and Warranty (“Yes” / “No”). A second dataset, web_data, contains the variables Month (numbers 1 to 12) and Visits. Use the ggplot2 package for all plots.",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "Write the R code to create a stacked bar chart of Brand, where each bar is divided (filled) according to Warranty, and then state the change needed so that each bar shows the proportion (from 0 to 1) instead of the raw counts.",
+            "marks": 4,
+            "reference_answer": "ggplot(gadget_data,\n  aes(x = Brand, fill = Warranty)) +\n  geom_bar(position = \"stack\")\nFor proportions, change to: geom_bar(position = \"fill\")",
+            "marks_breakdown": "1\n1\n1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "b",
+            "text": "Using web_data, write the R code to create a line chart of Visits across Month, and add a point (marker) at each month.",
+            "marks": 3,
+            "reference_answer": "ggplot(web_data, aes(x = Month, y = Visits)) +\n  geom_line() +\n  geom_point()",
+            "marks_breakdown": "1\n1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "Write the R code to create a boxplot of Price_RM across the three categories of Brand.",
+            "marks": 3,
+            "reference_answer": "ggplot(gadget_data,\n  aes(x = Brand, y = Price_RM)) +\n  geom_boxplot()",
+            "marks_breakdown": "1\n1\n1",
+            "assets": []
+          }
+        ],
+        "assets": []
+      },
+      {
+        "question_no": 3,
+        "total_marks": 10,
+        "context": "The dataset phone_data records last month's sales of five phone models:\nUse the dplyr package and the pipe operator (%>%) for all parts.",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "Select the Model and Units_Sold variables and filter the models that sold 45 units or more. Store the result as hot_models. Your output should be:",
+            "marks": 3,
+            "reference_answer": "library(dplyr)\nhot_models <- phone_data %>%\n  select(Model, Units_Sold) %>%\n  filter(Units_Sold >= 45)",
+            "marks_breakdown": "1\n1\n\n1",
+            "assets": [
+              {
+                "type": "table",
+                "headers": [
+                  "Model",
+                  "Units_Sold"
+                ],
+                "rows": [
+                  [
+                    "A1",
+                    "45"
+                  ],
+                  [
+                    "Z5",
+                    "62"
+                  ],
+                  [
+                    "X2",
+                    "71"
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "sub_no": "b",
+            "text": "Arrange all models by Units_Sold in descending order. Store the result as model_rank.",
+            "marks": 2,
+            "reference_answer": "model_rank <- phone_data %>%\n  arrange(desc(Units_Sold))",
+            "marks_breakdown": "1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "Rename the variable Price_RM to Retail_Price. Store the result as phone_renamed.",
+            "marks": 2,
+            "reference_answer": "phone_renamed <- phone_data %>%\n  rename(Retail_Price = Price_RM)",
+            "marks_breakdown": "1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "d",
+            "text": "Using the original phone_data, use mutate() to create Revenue = Units_Sold × Price_RM, then use group_by() and summarise() to compute the average Revenue for each Brand, naming the column Avg_Revenue. Store the result as brand_summary.\nEND OF PRACTICE SET",
+            "marks": 3,
+            "reference_answer": "brand_summary <- phone_data %>%\n  mutate(Revenue = Units_Sold * Price_RM) %>%\n  group_by(Brand) %>%\n  summarise(Avg_Revenue = mean(Revenue))",
+            "marks_breakdown": "1\n\n1\n1",
+            "assets": []
+          }
+        ],
+        "assets": [
+          {
+            "type": "table",
+            "headers": [
+              "Model",
+              "Brand",
+              "Units_Sold",
+              "Price_RM"
+            ],
+            "rows": [
+              [
+                "A1",
+                "Techno",
+                "45",
+                "899"
+              ],
+              [
+                "Z5",
+                "Vora",
+                "62",
+                "1299"
+              ],
+              [
+                "M3",
+                "Techno",
+                "38",
+                "749"
+              ],
+              [
+                "X2",
+                "Vora",
+                "71",
+                "1599"
+              ],
+              [
+                "P9",
+                "Lumo",
+                "25",
+                "649"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "practice_set": 5,
+    "title": "PRACTICE SET 5",
+    "course": "STA334 – INTRODUCTION TO STATISTICAL PROGRAMMING",
+    "focus": "Focus: CSV import & checks, boxplot interpretation, NA in summaries",
+    "info": "Total: 25 marks  |  Suggested time: 1 hour  |  Answer ALL questions. Write all R code by hand.",
+    "questions": [
+      {
+        "question_no": 1,
+        "total_marks": 5,
+        "context": "",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "The organiser of the Kinta Futsal League keeps match results in a file named league_results.csv. Write the base R command to import this file into R and store it in a variable named league_data.",
+            "marks": 2,
+            "reference_answer": "league_data <- read.csv(\"league_results.csv\")",
+            "marks_breakdown": "2",
+            "assets": []
+          },
+          {
+            "sub_no": "b",
+            "text": "State TWO (2) functions that can be used to inspect the dataset immediately after importing, to confirm the data has been read correctly.",
+            "marks": 2,
+            "reference_answer": "Any two: head(), str() / glimpse(), summary(), View(), dim() / nrow() / ncol()",
+            "marks_breakdown": "1+1",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "State ONE (1) advantage of the CSV format when sharing data between different software.",
+            "marks": 1,
+            "reference_answer": "Any one: plain text readable by almost any software / small file size / simple structure, easy to inspect / not tied to any software version.",
+            "marks_breakdown": "1",
+            "assets": []
+          }
+        ],
+        "assets": []
+      },
+      {
+        "question_no": 2,
+        "total_marks": 10,
+        "context": "Assume a dataset futsal_data has been imported into RStudio. It contains the numeric variable Match_Rating (a score out of 10 given by referees) and the factor variables Team (“Falcons” / “Titans”) and Division (“A” / “B”). Use the ggplot2 package for all plots.",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "Write the R code to create a bar chart showing the number of matches played in each Division.",
+            "marks": 3,
+            "reference_answer": "library(ggplot2)\nggplot(futsal_data, aes(x = Division)) +\n  geom_bar()",
+            "marks_breakdown": "1\n1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "b",
+            "text": "Write the R code to create a boxplot of Match_Rating across the two teams, with a descriptive main title, appropriate axis labels, and a different colour for each team.",
+            "marks": 4,
+            "reference_answer": "ggplot(futsal_data,\n  aes(x = Team, y = Match_Rating, fill = Team)) +\n  geom_boxplot() +\n  labs(title = \"Match Rating by Team\",\n       x = \"Team\", y = \"Match Rating (out of 10)\")",
+            "marks_breakdown": "1\n1\n1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "The boxplot below was produced from the futsal_data dataset.\nState the approximate median match rating for each team, state which team is more consistent (smaller spread), and comment on any outlier shown.",
+            "marks": 3,
+            "reference_answer": "Median for Falcons ≈ 7.5; median for Titans ≈ 6.0 (accept ±0.3)\nMore consistent: Falcons (much smaller box / shorter whiskers)\nThere is one outlier in the Falcons group – a very low rating of about 2, far below the rest of their ratings.",
+            "marks_breakdown": "1\n1\n1",
+            "assets": [
+              {
+                "type": "image",
+                "path": "images/practice_5_img_1.png",
+                "name": "practice_5_img_1.png"
+              }
+            ]
+          }
+        ],
+        "assets": []
+      },
+      {
+        "question_no": 3,
+        "total_marks": 10,
+        "context": "The dataset player_stats records this season's statistics for five players:",
+        "subquestions": [
+          {
+            "sub_no": "a",
+            "text": "Write an R script to compute the average number of goals (Goals) using the mean() function, ensuring that the NA value is excluded.",
+            "marks": 3,
+            "reference_answer": "mean(player_stats$Goals, na.rm = TRUE)",
+            "marks_breakdown": "3",
+            "assets": []
+          },
+          {
+            "sub_no": "b",
+            "text": "A teammate suggests replacing the NA in Goals with 0 before the analysis. Discuss whether this suggestion is appropriate.",
+            "marks": 2,
+            "reference_answer": "Not appropriate. NA means the number of goals was not recorded – it does not mean the player scored 0 goals.\nReplacing it with 0 would wrongly lower the averages and bias the analysis; it is better to exclude it with na.rm = TRUE or obtain the true value.",
+            "marks_breakdown": "1\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "c",
+            "text": "Using dplyr and the pipe operator, use mutate() to create a new variable Goals_per_Match, defined as Goals_per_Match = Goals / Matches.",
+            "marks": 2,
+            "reference_answer": "library(dplyr)\nplayer_stats <- player_stats %>%\n  mutate(Goals_per_Match = Goals / Matches)",
+            "marks_breakdown": "1\n\n1",
+            "assets": []
+          },
+          {
+            "sub_no": "d",
+            "text": "Continuing from c), use group_by() and summarise() to compute the average Goals for each Team, naming the column Avg_Goals. Remember to handle the NA value inside the calculation. Store the result as team_summary.\nEND OF PRACTICE SET",
+            "marks": 3,
+            "reference_answer": "team_summary <- player_stats %>%\n  group_by(Team) %>%\n  summarise(Avg_Goals = mean(Goals, na.rm = TRUE))",
+            "marks_breakdown": "1\n1\n1",
+            "assets": []
+          }
+        ],
+        "assets": [
+          {
+            "type": "table",
+            "headers": [
+              "Player",
+              "Team",
+              "Goals",
+              "Matches"
+            ],
+            "rows": [
+              [
+                "Amir",
+                "Falcons",
+                "8",
+                "6"
+              ],
+              [
+                "Danish",
+                "Titans",
+                "NA",
+                "5"
+              ],
+              [
+                "Hana",
+                "Falcons",
+                "12",
+                "7"
+              ],
+              [
+                "Iqbal",
+                "Titans",
+                "5",
+                "6"
+              ],
+              [
+                "Mira",
+                "Comets",
+                "9",
+                "6"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
