@@ -239,55 +239,57 @@ def render_timer():
             st.rerun()
             
         # JS-based ticking timer
-        st.sidebar.markdown(f"""
-            <div style="
-                background: rgba(30, 41, 59, 0.85);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 12px;
-                padding: 15px;
-                text-align: center;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-                backdrop-filter: blur(8px);
-                margin-bottom: 20px;
-            ">
-                <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 5px;">Time Remaining</div>
-                <div id="countdown" style="font-size: 26px; font-weight: bold; color: #10b981; font-family: monospace;">--:--</div>
-            </div>
-            
-            <script>
-                (function() {{
-                    var timeLeft = {time_left};
-                    var countdownEl = document.getElementById('countdown');
-                    if (!countdownEl) return;
-                    
-                    function updateTimer() {{
-                        if (timeLeft <= 0) {{
-                            countdownEl.innerHTML = "00:00";
-                            countdownEl.style.color = "#ef4444";
-                            clearInterval(timerInterval);
-                            return;
-                        }}
-                        var mins = Math.floor(timeLeft / 60);
-                        var secs = timeLeft % 60;
-                        countdownEl.innerHTML = 
-                            (mins < 10 ? "0" + mins : mins) + ":" + 
-                            (secs < 10 ? "0" + secs : secs);
+        with st.sidebar:
+            st.components.v1.html(f"""
+                <div style="
+                    background: rgba(30, 41, 59, 0.95);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 12px;
+                    padding: 10px;
+                    text-align: center;
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                    color: #f1f5f9;
+                ">
+                    <div style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 4px;">Time Remaining</div>
+                    <div id="countdown" style="font-size: 22px; font-weight: bold; color: #10b981; font-family: monospace; letter-spacing: 0.5px;">--:--</div>
+                </div>
+                
+                <script>
+                    (function() {{
+                        var timeLeft = {time_left};
+                        var countdownEl = document.getElementById('countdown');
+                        if (!countdownEl) return;
                         
-                        if (timeLeft <= 300) {{ // less than 5 mins
-                            countdownEl.style.color = "#f43f5e";
-                        }} else if (timeLeft <= 900) {{ // less than 15 mins
-                            countdownEl.style.color = "#fb923c";
-                        }} else {{
-                            countdownEl.style.color = "#10b981";
+                        function updateTimer() {{
+                            if (timeLeft <= 0) {{
+                                countdownEl.innerHTML = "00:00";
+                                countdownEl.style.color = "#ef4444";
+                                clearInterval(timerInterval);
+                                return;
+                            }}
+                            var mins = Math.floor(timeLeft / 60);
+                            var secs = timeLeft % 60;
+                            countdownEl.innerHTML = 
+                                (mins < 10 ? "0" + mins : mins) + ":" + 
+                                (secs < 10 ? "0" + secs : secs);
+                            
+                            if (timeLeft <= 300) {{ // less than 5 mins
+                                countdownEl.style.color = "#f43f5e";
+                            }} else if (timeLeft <= 900) {{ // less than 15 mins
+                                countdownEl.style.color = "#fb923c";
+                            }} else {{
+                                countdownEl.style.color = "#10b981";
+                            }}
+                            timeLeft--;
                         }}
-                        timeLeft--;
-                    }}
-                    
-                    updateTimer();
-                    var timerInterval = setInterval(updateTimer, 1000);
-                }})();
-            </script>
-        """, unsafe_allow_html=True)
+                        
+                        updateTimer();
+                        var timerInterval = setInterval(updateTimer, 1000);
+                    }})();
+                </script>
+            """, height=72)
+
         
         # Display student info in sidebar
         st.sidebar.markdown("---")
